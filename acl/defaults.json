@@ -1,0 +1,108 @@
+{
+  "roles": [
+    {
+      "name": "administrators"
+    },
+    {
+      "name": "readonly"
+    }
+  ],
+  "resources": [
+    {
+      "name": "User",
+      "perms":"create,read,update,delete"
+    },
+    {
+      "name": "Profile",
+      "perms":"create,read,update,delete"
+    },
+    {
+      "name": "Role",
+      "perms":"create,read,update,delete"
+    },
+    {
+      "name": "RolePerm",
+      "perms":"create,read,update,delete"
+    },
+    {
+      "name": "ResourcePerm",
+      "perms":"create,read,update,delete"
+    },
+    {
+      "name": "UserRole",
+      "perms":"create,read,update,delete"
+    },
+    {
+      "name": "Enum",
+      "perms":"create,read,update,delete"
+    },
+    {
+      "name": "Task",
+      "perms":"create,read,update,delete"
+    }
+  ],
+  "roleperms": [
+    {
+      "roleId": {
+        "$lookup": {
+          "model": "Role",
+          "name": {
+            "$in": [
+              "administrators"
+            ]
+          }
+        }
+      },
+      "resourceId": {
+        "$lookup": {
+          "model": "ResourcePerm",
+          "name": {
+            "$in": [
+              "User",
+              "Profile",
+              "Role",
+              "Resource",
+              "RolePerm",
+              "ResourcePerm",
+              "UserRole",
+              "Enum",
+              "Task"
+            ]
+          }
+        }
+      },
+      "perms": "create,read,update,delete"
+    },
+    {
+      "roleId": {
+        "$lookup": {
+          "model": "Role",
+          "name": {
+            "$in": [
+              "readonly"
+            ]
+          }
+        }
+      },
+      "resourceId": {
+        "$lookup": {
+          "model": "ResourcePerm",
+          "name": {
+            "$in": [
+              "User",
+              "Profile",
+              "Role",
+              "Resource",
+              "RolePerm",
+              "ResourcePerm",
+              "UserRole",
+              "Enum",
+              "Task"
+            ]
+          }
+        }
+      },
+      "perms": "read"
+    }
+  ]
+}
